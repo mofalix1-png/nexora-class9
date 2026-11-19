@@ -1,0 +1,125 @@
+<!doctype html>
+<html lang="fa" dir="rtl">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,maximum-scale=1,user-scalable=no">
+<meta name="theme-color" content="#10172a">
+<link rel="manifest" href="manifest.webmanifest">
+<link rel="icon" href="icon.svg" type="image/svg+xml">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+<title>NEXORA | یادگیری نهم</title>
+<style>
+:root{--bg:#0b1020;--panel:#141d33;--panel2:#1a2742;--text:#f4f7ff;--muted:#9eabc7;--cyan:#55d6e8;--violet:#9b8cff;--green:#58d6a5;--red:#ff7185;--line:#293653}
+*{box-sizing:border-box}body{margin:0;background:radial-gradient(circle at 85% -10%,#27345c 0,transparent 34%),var(--bg);color:var(--text);font-family:Tahoma,Arial,sans-serif;min-height:100vh}
+button{font:inherit;cursor:pointer;border:0}.app{max-width:760px;margin:auto;padding:18px 16px 38px}.top{display:flex;align-items:center;justify-content:space-between;margin:5px 0 22px}.brand{display:flex;gap:11px;align-items:center}.logo{width:43px;height:43px;border-radius:15px;background:linear-gradient(135deg,var(--cyan),var(--violet));display:grid;place-items:center;color:#0b1020;font-weight:900;font-size:22px;box-shadow:0 8px 28px #55d6e833}.brand h1{font-size:21px;letter-spacing:1px;margin:0}.brand small{display:block;color:var(--muted);font-size:11px;margin-top:4px}.pill{background:#1d2944;border:1px solid #354565;padding:8px 11px;border-radius:30px;color:#dce7ff;font-size:12px}
+.hero{padding:23px;border:1px solid #344362;border-radius:25px;background:linear-gradient(130deg,#1c2b49,#171d37 65%,#25214b);position:relative;overflow:hidden}.hero:after{content:"✦";position:absolute;font-size:120px;color:#ffffff09;left:15px;top:-25px}.eyebrow{color:var(--cyan);font-size:12px;font-weight:bold}.hero h2{font-size:25px;line-height:1.5;margin:9px 0}.hero p{color:#b8c5df;font-size:13px;line-height:2;margin:0 0 18px;max-width:470px}.stats{display:grid;grid-template-columns:repeat(3,1fr);gap:9px;margin-top:17px}.stat{background:#0e172b80;border:1px solid #ffffff12;border-radius:15px;padding:12px}.stat b{display:block;font-size:19px}.stat span{font-size:10px;color:var(--muted)}
+.section-title{display:flex;align-items:center;justify-content:space-between;margin:25px 2px 12px}.section-title h3{font-size:16px;margin:0}.section-title span{font-size:11px;color:var(--muted)}
+.subjects{display:grid;grid-template-columns:1fr 1fr;gap:12px}.subject{background:var(--panel);border:1px solid var(--line);border-radius:19px;padding:16px;text-align:right;color:var(--text);min-height:145px;transition:.2s}.subject:active{transform:scale(.98)}.subject .emoji{font-size:25px}.subject h4{margin:11px 0 5px;font-size:15px}.subject p{font-size:11px;color:var(--muted);line-height:1.8;margin:0}.subject .go{display:block;color:var(--cyan);font-size:11px;margin-top:10px}
+.quick{display:grid;grid-template-columns:1fr 1fr;gap:10px}.quick button{background:#151f36;border:1px solid var(--line);border-radius:15px;color:#eaf0ff;text-align:right;padding:14px;font-size:12px}.quick strong{display:block;font-size:19px;margin-bottom:6px}
+.panel{background:var(--panel);border:1px solid var(--line);border-radius:21px;padding:18px;margin-top:15px}.screen{display:none}.screen.active{display:block}.back{background:transparent;color:var(--cyan);padding:5px 0 15px;font-size:13px}.screen h2{font-size:21px;margin:4px 0 8px}.muted{color:var(--muted);font-size:12px;line-height:1.9}.primary{background:linear-gradient(100deg,var(--cyan),#8b9dff);color:#0b1427;font-weight:bold;border-radius:13px;padding:13px 17px;width:100%;margin-top:12px}.secondary{background:#263653;color:#eaf1ff;border-radius:12px;padding:11px 14px}
+.topic-grid{display:grid;grid-template-columns:1fr 1fr;gap:9px;margin-top:15px}.topic{background:#1a2742;border:1px solid #344563;border-radius:14px;color:white;text-align:right;padding:13px;font-size:12px}.topic small{display:block;color:var(--muted);margin-top:5px}
+.quiz-head{display:flex;justify-content:space-between;align-items:center;color:var(--muted);font-size:12px}.bar{height:7px;background:#273550;border-radius:20px;margin:13px 0 20px;overflow:hidden}.bar i{height:100%;display:block;background:linear-gradient(90deg,var(--cyan),var(--violet));width:0;transition:.25s}.question{font-size:18px;line-height:1.9;margin:10px 0 17px}.answers{display:grid;gap:10px}.answer{background:#1b2944;border:1px solid #354664;border-radius:13px;padding:14px;text-align:right;color:#edf2ff;font-size:13px;line-height:1.7}.answer.correct{border-color:var(--green);background:#123a37}.answer.wrong{border-color:var(--red);background:#402333}.answer:disabled{cursor:default}.feedback{min-height:28px;font-size:12px;line-height:1.8;margin-top:12px;color:var(--muted)}
+.result{text-align:center;padding:20px 5px}.result .medal{font-size:54px}.result h2{font-size:24px}.score{font-size:43px;font-weight:900;color:var(--cyan);margin:12px}.result p{color:var(--muted);font-size:13px;line-height:2}
+.progress-row{display:flex;justify-content:space-between;font-size:12px;margin:13px 0 7px}.progress-track{height:8px;border-radius:20px;background:#293653;overflow:hidden}.progress-track i{display:block;height:100%;background:linear-gradient(90deg,var(--green),var(--cyan));width:0}
+footer{text-align:center;color:#657391;font-size:10px;margin:28px 0 5px}
+@media(max-width:380px){.app{padding:14px 12px}.hero{padding:19px}.hero h2{font-size:22px}.stat{padding:9px}.subjects{gap:9px}}
+</style>
+</head>
+<body>
+<div class="app">
+<header class="top"><div class="brand"><div class="logo">N</div><div><h1>NEXORA</h1><small>یادگیری هوشمند پایه نهم</small></div></div><div class="pill">نسخه آزمایشی ۰.۱</div></header>
+
+<main id="home" class="screen active">
+<section class="hero"><div class="eyebrow">یاد بگیر • تمرین کن • پیشرفت کن</div><h2>سلام، به دنیای یادگیری خوش اومدی! ✨</h2><p>اینجا درس‌های پایه نهم را با آزمون‌های کوتاه، امتیاز و چالش‌های جذاب تمرین می‌کنی. آماده‌ای رکوردت رو بسازی؟</p><button class="secondary" onclick="openSubject('social')">شروع یادگیری ←</button>
+<div class="stats"><div class="stat"><b id="totalPoints">۰</b><span>امتیاز کل</span></div><div class="stat"><b id="totalDone">۰</b><span>پاسخ داده‌شده</span></div><div class="stat"><b id="bestPercent">۰٪</b><span>بهترین دقت</span></div></div></section>
+<div class="section-title"><h3>مسیرهای یادگیری</h3><span>پایه نهم</span></div>
+<div class="subjects">
+<button class="subject" onclick="openSubject('social')"><div class="emoji">🗺️</div><h4>مطالعات اجتماعی</h4><p>تاریخ، جغرافیا و زندگی اجتماعی</p><span class="go">ورود به درس ←</span></button>
+<button class="subject" onclick="openSubject('tech')"><div class="emoji">💻</div><h4>کار و فناوری</h4><p>مهارت دیجیتال، رایانه و فناوری</p><span class="go">ورود به درس ←</span></button>
+</div>
+<div class="section-title"><h3>ابزارهای من</h3><span>پیشرفت تو</span></div>
+<div class="quick"><button onclick="showProgress()"><strong>📊</strong>گزارش پیشرفت</button><button onclick="dailyChallenge()"><strong>⚡</strong>چالش سریع</button></div>
+</main>
+
+<section id="subject" class="screen">
+<button class="back" onclick="goHome()">→ بازگشت به خانه</button>
+<div class="panel"><div id="subjectEmoji" style="font-size:30px">🗺️</div><h2 id="subjectTitle">مطالعات اجتماعی</h2><p class="muted" id="subjectDesc">موضوعی را انتخاب کن و دانسته‌هایت را بسنج.</p><div class="topic-grid" id="topics"></div></div>
+</section>
+
+<section id="quiz" class="screen">
+<button class="back" onclick="goSubject()">→ بازگشت به موضوع‌ها</button>
+<div class="panel"><div class="quiz-head"><span id="quizLabel">آزمون</span><span id="counter">۱ از ۵</span></div><div class="bar"><i id="quizBar"></i></div><div class="question" id="questionText"></div><div class="answers" id="answers"></div><div class="feedback" id="feedback"></div><button id="nextBtn" class="primary" style="display:none" onclick="nextQuestion()">سؤال بعدی</button></div>
+</section>
+
+<section id="result" class="screen">
+<button class="back" onclick="goHome()">→ صفحه اصلی</button><div class="panel result"><div class="medal" id="resultMedal">🏅</div><h2 id="resultTitle">آفرین!</h2><div class="score" id="resultScore">۰ از ۵</div><p id="resultText"></p><button class="primary" onclick="retryQuiz()">دوباره تلاش کن</button><button class="secondary" style="width:100%;margin-top:9px" onclick="goHome()">بازگشت به خانه</button></div>
+</section>
+
+<section id="progress" class="screen">
+<button class="back" onclick="goHome()">→ بازگشت به خانه</button><div class="panel"><h2>گزارش پیشرفت 📊</h2><p class="muted">نتیجه تمرین‌ها روی همین دستگاه ذخیره می‌شود.</p><div class="progress-row"><span>مطالعات اجتماعی</span><b id="socialProgress">۰٪</b></div><div class="progress-track"><i id="socialBar"></i></div><div class="progress-row"><span>کار و فناوری</span><b id="techProgress">۰٪</b></div><div class="progress-track"><i id="techBar"></i></div><p class="muted" id="progressNote"></p><button class="secondary" onclick="resetData()">پاک کردن آمار ذخیره‌شده</button></div>
+</section>
+<footer>NEXORA • نسخه آزمایشی آموزشی پایه نهم</footer>
+</div>
+<script>
+const banks={
+ social:[
+ {name:"جغرافیای ایران",desc:"مکان‌ها و محیط زندگی",q:[
+ ["کدام عامل در شکل‌گیری آب‌وهوای یک منطقه نقش دارد؟",["ارتفاع از سطح دریا","رنگ ساختمان‌ها","تعداد خودروها","نام شهر"],0,"ارتفاع از سطح دریا بر دما و شرایط آب‌وهوایی اثر می‌گذارد."],
+ ["نقشه چیست؟",["تصویر کوچک‌شده و قراردادی از تمام یا بخشی از سطح زمین","عکس هوایی بدون مقیاس","فهرست نام شهرها","نمودار جمعیت"],0,"نقشه نمایش ساده‌شده سطح زمین با مقیاس و نشانه‌هاست."],
+ ["کدام مورد از منابع آب شیرین به شمار می‌رود؟",["آب رودخانه","آب اقیانوس","آب دریا","آب شور"],0,"رودخانه‌ها از منابع آب شیرین سطحی هستند."]
+ ]},
+ {name:"تاریخ و تمدن",desc:"گذشته و رویدادهای تاریخی",q:[
+ ["مطالعه تاریخ چه کمکی به ما می‌کند؟",["شناخت گذشته و فهم بهتر زمان حال","پیش‌بینی دقیق آب‌وهوا","محاسبه سرعت خودرو","اندازه‌گیری فشار"],0,"تاریخ به شناخت تجربه‌ها و رویدادهای گذشته کمک می‌کند."],
+ ["کدام مورد می‌تواند منبع دست اول تاریخی باشد؟",["نامه‌ای که در همان دوره نوشته شده","رمان امروزی درباره گذشته","فیلم تخیلی","داستانی بدون سند"],0,"سند هم‌زمان با رویداد، نمونه‌ای از منبع دست اول است."],
+ ["میراث فرهنگی شامل چیست؟",["آثار و ارزش‌های به‌جامانده از گذشتگان","فقط ابزارهای جدید","فقط منابع طبیعی","فقط ساختمان‌های امروزی"],0,"میراث فرهنگی می‌تواند مادی یا معنوی باشد."]
+ ]},
+ {name:"زندگی اجتماعی",desc:"جامعه، قانون و مسئولیت",q:[
+ ["چرا جامعه به قانون نیاز دارد؟",["برای نظم و حفظ حقوق افراد","برای حذف همکاری","برای دشوار کردن زندگی","برای جلوگیری از آموزش"],0,"قانون به تنظیم روابط و حمایت از حقوق افراد کمک می‌کند."],
+ ["کدام نمونه‌ای از مشارکت اجتماعی است؟",["همکاری در پاکیزه نگه‌داشتن محله","بی‌توجهی به محیط","تخریب اموال عمومی","نادیده گرفتن حقوق دیگران"],0,"مشارکت یعنی همکاری آگاهانه برای بهبود زندگی جمعی."],
+ ["شهروند مسئول چه رفتاری دارد؟",["رعایت حقوق دیگران و قوانین","آسیب زدن به اموال عمومی","پخش شایعه","بی‌توجهی به مقررات"],0,"مسئولیت‌پذیری با رعایت حقوق دیگران همراه است."]
+ ]}
+ ],
+ tech:[
+ {name:"مهارت‌های رایانه",desc:"شناخت ابزارهای دیجیتال",q:[
+ ["کدام قطعه مغز اصلی پردازش رایانه است؟",["پردازنده (CPU)","صفحه‌کلید","بلندگو","چاپگر"],0,"CPU دستورها را پردازش و اجرای عملیات را مدیریت می‌کند."],
+ ["کدام گزینه برای ذخیره‌سازی بلندمدت فایل‌هاست؟",["حافظه SSD","حافظه RAM","پردازنده","فن"],0,"SSD داده‌ها را حتی پس از خاموش شدن دستگاه نگه می‌دارد."],
+ ["پسوند رایج فایل تصویری کدام است؟",[".jpg"," .mp3"," .exe"," .txt"],0,"JPG یکی از قالب‌های رایج تصویر است."]
+ ]},
+ {name:"اینترنت و امنیت",desc:"استفاده امن و هوشمندانه",q:[
+ ["کدام گذرواژه امن‌تر است؟",["ترکیب طولانی حروف، عدد و نماد","12345678","تاریخ تولد","نام کوچک"],0,"گذرواژه طولانی و غیرقابل حدس امنیت بیشتری دارد."],
+ ["اگر پیام ناشناس لینک مشکوک فرستاد چه کنیم؟",["روی لینک کلیک نکنیم و فرستنده را بررسی کنیم","فوراً اطلاعات وارد کنیم","پیام را برای همه بفرستیم","رمز خود را ارسال کنیم"],0,"لینک‌های ناشناس ممکن است برای فیشینگ یا بدافزار باشند."],
+ ["هدف پشتیبان‌گیری (Backup) چیست؟",["بازیابی اطلاعات در صورت حذف یا خرابی","افزایش روشنایی نمایشگر","حذف همیشگی فایل‌ها","تغییر اندازه متن"],0,"نسخه پشتیبان از ازدست‌رفتن اطلاعات جلوگیری می‌کند."]
+ ]},
+ {name:"تفکر و حل مسئله",desc:"ایده‌پردازی و ساخت راه‌حل",q:[
+ ["اولین قدم مناسب برای حل یک مسئله چیست؟",["شناخت و تعریف دقیق مسئله","انتخاب تصادفی ابزار","نادیده گرفتن مشکل","اجرای راه‌حل بدون بررسی"],0,"برای انتخاب راه‌حل درست، ابتدا باید مسئله را دقیق بشناسیم."],
+ ["نمونه‌سازی اولیه یا Prototype چه فایده‌ای دارد؟",["آزمایش ایده پیش از ساخت نهایی","افزایش هزینه بدون دلیل","حذف مرحله آزمایش","جایگزینی کامل نیازسنجی"],0,"نمونه اولیه امکان بررسی و اصلاح ایده را فراهم می‌کند."],
+ ["در کار گروهی کدام رفتار بهتر است؟",["تقسیم وظایف و گفت‌وگو","انجام ندادن مسئولیت","نادیده گرفتن نظر دیگران","پنهان کردن اطلاعات"],0,"تقسیم روشن وظایف و ارتباط مؤثر به نتیجه بهتر کمک می‌کند."]
+ ]}
+ ]
+};
+let currentSubject="social",currentQuestions=[],qIndex=0,correct=0,answered=false,lastTopic=null;
+let data=JSON.parse(localStorage.getItem("nexoraData")||'{"points":0,"done":0,"best":0,"social":0,"tech":0,"socialTotal":0,"techTotal":0}');
+const fa=n=>Number(n).toLocaleString("fa-IR");
+function save(){localStorage.setItem("nexoraData",JSON.stringify(data));updateStats()}
+function updateStats(){document.getElementById("totalPoints").textContent=fa(data.points);document.getElementById("totalDone").textContent=fa(data.done);document.getElementById("bestPercent").textContent=fa(data.best)+"٪"}
+function show(id){document.querySelectorAll(".screen").forEach(s=>s.classList.remove("active"));document.getElementById(id).classList.add("active");window.scrollTo(0,0)}
+function goHome(){show("home");updateStats()}
+function openSubject(s){currentSubject=s;let b=banks[s];document.getElementById("subjectEmoji").textContent=s==="social"?"🗺️":"💻";document.getElementById("subjectTitle").textContent=s==="social"?"مطالعات اجتماعی":"کار و فناوری";document.getElementById("subjectDesc").textContent="یکی از مسیرها را انتخاب کن و به چند پرسش کوتاه پاسخ بده.";document.getElementById("topics").innerHTML=b.map((t,i)=>`<button class="topic" onclick="startQuiz(${i})">${t.name}<small>${t.desc} · ${fa(t.q.length)} پرسش</small></button>`).join("");show("subject")}
+function goSubject(){openSubject(currentSubject)}
+function startQuiz(i){lastTopic=i;currentQuestions=banks[currentSubject][i].q;qIndex=0;correct=0;show("quiz");renderQuestion()}
+function renderQuestion(){answered=false;let q=currentQuestions[qIndex];document.getElementById("quizLabel").textContent=banks[currentSubject][lastTopic].name;document.getElementById("counter").textContent=fa(qIndex+1)+" از "+fa(currentQuestions.length);document.getElementById("quizBar").style.width=(qIndex/currentQuestions.length*100)+"%";document.getElementById("questionText").textContent=q[0];document.getElementById("feedback").textContent="";document.getElementById("nextBtn").style.display="none";document.getElementById("answers").innerHTML=q[1].map((a,i)=>`<button class="answer" onclick="chooseAnswer(${i})">${["الف","ب","پ","ت"][i]}) ${a.trim()}</button>`).join("")}
+function chooseAnswer(i){if(answered)return;answered=true;let q=currentQuestions[qIndex],buttons=[...document.querySelectorAll(".answer")];buttons.forEach((b,j)=>{b.disabled=true;if(j===q[2])b.classList.add("correct");if(j===i&&i!==q[2])b.classList.add("wrong")});if(i===q[2]){correct++;document.getElementById("feedback").textContent="آفرین! پاسخ درست بود. "+q[3];document.getElementById("feedback").style.color="var(--green)"}else{document.getElementById("feedback").textContent="این بار درست نبود. "+q[3];document.getElementById("feedback").style.color="var(--red)"}document.getElementById("nextBtn").style.display="block";document.getElementById("nextBtn").textContent=qIndex===currentQuestions.length-1?"دیدن نتیجه":"سؤال بعدی"}
+function nextQuestion(){if(qIndex<currentQuestions.length-1){qIndex++;renderQuestion()}else finishQuiz()}
+function finishQuiz(){let total=currentQuestions.length,percent=Math.round(correct/total*100),earned=correct*10;data.points+=earned;data.done+=total;data.best=Math.max(data.best,percent);data[currentSubject]+=correct;data[currentSubject+"Total"]+=total;save();document.getElementById("resultMedal").textContent=percent===100?"🏆":percent>=60?"🥈":"🌱";document.getElementById("resultTitle").textContent=percent===100?"فوق‌العاده بود!":percent>=60?"آفرین، ادامه بده!":"تمرین، تو را قوی‌تر می‌کند";document.getElementById("resultScore").textContent=fa(correct)+" از "+fa(total);document.getElementById("resultText").textContent=`دقت پاسخ‌گویی تو ${fa(percent)} درصد بود و ${fa(earned)} امتیاز گرفتی. ${percent>=60?"یک قدم به تسلط نزدیک‌تر شدی!":"پاسخ‌های توضیح‌دار را مرور کن و دوباره تلاش کن."}`;show("result")}
+function retryQuiz(){startQuiz(lastTopic)}
+function showProgress(){let sp=data.socialTotal?Math.round(data.social/data.socialTotal*100):0,tp=data.techTotal?Math.round(data.tech/data.techTotal*100):0;document.getElementById("socialProgress").textContent=fa(sp)+"٪";document.getElementById("techProgress").textContent=fa(tp)+"٪";document.getElementById("socialBar").style.width=sp+"%";document.getElementById("techBar").style.width=tp+"%";document.getElementById("progressNote").textContent=`مجموع امتیازها: ${fa(data.points)} | تعداد پاسخ‌ها: ${fa(data.done)}`;show("progress")}
+function dailyChallenge(){currentSubject="social";currentQuestions=[...banks.social[0].q.slice(0,2),...banks.tech[0].q.slice(0,2)];qIndex=0;correct=0;lastTopic=0;document.getElementById("quizLabel").textContent="چالش سریع ترکیبی";show("quiz");renderQuestion()}
+function resetData(){if(confirm("آمار و امتیازهای ذخیره‌شده پاک شوند؟")){data={points:0,done:0,best:0,social:0,tech:0,socialTotal:0,techTotal:0};save();showProgress()}}
+updateStats();
+// Service worker enables offline use after the first visit on a secure (HTTPS) host.
+if ('serviceWorker' in navigator && (location.protocol === 'https:' || location.hostname === 'localhost')) {
+  window.addEventListener('load', () => navigator.serviceWorker.register('./sw.js').catch(() => {}));
+}
+</script>
+</body></html>

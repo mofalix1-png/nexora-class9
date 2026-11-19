@@ -1,0 +1,20 @@
+{
+  "name": "NEXORA | یادگیری هوشمند پایه نهم",
+  "short_name": "NEXORA",
+  "description": "برنامه آموزشی شخصی پایه نهم",
+  "lang": "fa",
+  "dir": "rtl",
+  "start_url": "./",
+  "scope": "./",
+  "display": "standalone",
+  "background_color": "#0b1020",
+  "theme_color": "#10172a",
+  "icons": [
+    {
+      "src": "./icon.svg",
+      "sizes": "any",
+      "type": "image/svg+xml",
+      "purpose": "any maskable"
+    }
+  ]
+}
