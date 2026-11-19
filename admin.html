@@ -1,0 +1,269 @@
+
+<!DOCTYPE html>
+<html lang="fa" dir="rtl">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="theme-color" content="#101827">
+<title>پنل مدیریت NEXORA</title>
+<style>
+*{box-sizing:border-box}
+body{margin:0;background:#0b1220;color:#edf4ff;font-family:Tahoma,Arial,sans-serif}
+main{width:min(1000px,94%);margin:30px auto}
+header,.card{background:#121d30;border:1px solid #26364f;border-radius:18px;padding:20px;margin-bottom:16px}
+header{display:flex;justify-content:space-between;align-items:center}
+.logo{font-size:25px;font-weight:bold;letter-spacing:2px}
+.logo span{color:#75a7ff}
+h1{font-size:22px}
+h2{font-size:18px}
+p,.muted{color:#9aabc2;font-size:13px}
+input,button{font:inherit;padding:13px;border-radius:10px}
+input{display:block;width:100%;margin:9px 0 15px;background:#0b1424;color:white;border:1px solid #34445d}
+button{border:0;background:#75a7ff;color:#071326;font-weight:bold;cursor:pointer}
+button.secondary{background:#263750;color:white}
+.row{display:flex;gap:10px;flex-wrap:wrap}
+.row>*{flex:1}
+.stats{display:grid;grid-template-columns:repeat(auto-fit,minmax(140px,1fr));gap:12px}
+.stat{background:#0b1424;border:1px solid #26364f;border-radius:14px;padding:16px}
+.num{font-size:28px;color:#75a7ff;font-weight:bold;margin-top:8px}
+.notice{background:#172941;padding:13px;border-radius:10px;margin-top:12px;white-space:pre-wrap}
+.error{background:#3a1d2a;color:#ffc4ce}
+table{width:100%;border-collapse:collapse;font-size:13px}
+td,th{text-align:right;padding:11px;border-bottom:1px solid #26364f}
+.tablewrap{overflow:auto}
+.hidden{display:none!important}
+@media(max-width:600px){main{margin:15px auto}.card{padding:15px}}
+</style>
+</head>
+<body>
+<main>
+<header>
+<div>
+<div class="logo">NEX<span>ORA</span></div>
+<p>پنل مدیریت کلاس نهم</p>
+</div>
+<div id="status">آماده ورود</div>
+</header>
+
+<section id="login" class="card">
+<h1>ورود مدیر</h1>
+<p>با حساب مدیر NEXORA وارد شو.</p>
+<form id="loginForm">
+<label>ایمیل</label>
+<input id="email" type="email" required placeholder="ایمیل مدیر">
+<label>رمز عبور</label>
+<input id="password" type="password" required placeholder="رمز عبور">
+<button id="loginBtn" type="submit">ورود به پنل</button>
+</form>
+<div id="loginMsg" class="notice hidden"></div>
+</section>
+
+<section id="dashboard" class="hidden">
+<div class="card">
+<div class="row">
+<div>
+<h1>داشبورد مدیریت</h1>
+<p id="who"></p>
+</div>
+<button id="refresh" class="secondary">به‌روزرسانی</button>
+<button id="logout" class="secondary">خروج</button>
+</div>
+</div>
+
+<div class="stats">
+<div class="stat">درس‌ها<div class="num" id="subjectsCount">—</div></div>
+<div class="stat">موضوع‌ها<div class="num" id="topicsCount">—</div></div>
+<div class="stat">سؤال‌ها<div class="num" id="questionsCount">—</div></div>
+<div class="stat">آزمون‌ها<div class="num" id="attemptsCount">—</div></div>
+</div>
+
+<div class="card">
+<h2>درس‌ها</h2>
+<div id="subjectsTable" class="tablewrap">در حال دریافت...</div>
+</div>
+
+<div class="card">
+<h2>موضوع‌ها</h2>
+<div id="topicsTable" class="tablewrap">در حال دریافت...</div>
+</div>
+
+<div class="card">
+<h2>آخرین آزمون‌ها</h2>
+<div id="attemptsTable" class="tablewrap">در حال دریافت...</div>
+</div>
+
+<div id="dashMsg" class="notice">آماده دریافت اطلاعات</div>
+</section>
+</main>
+
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+<script>
+const SUPABASE_URL =
+'https://azvvkhsieyidweclbwow.supabase.co';
+
+const SUPABASE_KEY =
+'sb_publishable_9m8JUluqlu5CO4GtVnYkYg_qL8QqOeI';
+
+const db = window.supabase.createClient(
+SUPABASE_URL,
+SUPABASE_KEY
+);
+
+const $ = id => document.getElementById(id);
+
+function showMessage(id,text,error=false){
+const el=$(id);
+el.textContent=text;
+el.classList.remove('hidden','error');
+if(error) el.classList.add('error');
+}
+
+function safe(value){
+return String(value ?? '—').replace(/[&<>"']/g,c=>({
+'&':'&amp;','<':'&lt;','>':'&gt;',
+'"':'&quot;',"'":'&#39;'
+}[c]));
+}
+
+function makeTable(rows,columns){
+if(!rows?.length) return '<p>هنوز اطلاعاتی ثبت نشده است.</p>';
+
+return '<table><thead><tr>'+
+columns.map(c=>'<th>'+safe(c.label)+'</th>').join('')+
+'</tr></thead><tbody>'+
+rows.map(r=>'<tr>'+
+columns.map(c=>'<td>'+safe(r[c.key])+'</td>').join('')+
+'</tr>').join('')+
+'</tbody></table>';
+}
+
+async function checkAdmin(user){
+const {data,error}=await db
+.from('admin_users')
+.select('user_id')
+.eq('user_id',user.id)
+.maybeSingle();
+
+if(error || !data){
+await db.auth.signOut();
+$('dashboard').classList.add('hidden');
+$('login').classList.remove('hidden');
+showMessage('loginMsg','این حساب دسترسی مدیریت ندارد.',true);
+return;
+}
+
+$('login').classList.add('hidden');
+$('dashboard').classList.remove('hidden');
+$('who').textContent='حساب مدیر: '+user.email;
+$('status').textContent='مدیر تأییدشده';
+await loadData();
+}
+
+async function getCount(name){
+const {count,error}=await db
+.from(name)
+.select('*',{count:'exact',head:true});
+
+if(error) throw error;
+return count ?? 0;
+}
+
+async function loadData(){
+$('dashMsg').textContent='در حال دریافت اطلاعات...';
+
+try{
+const [s,t,q,a]=await Promise.all([
+getCount('subjects'),
+getCount('topics'),
+getCount('questions'),
+getCount('quiz_attempts')
+]);
+
+$('subjectsCount').textContent=s;
+$('topicsCount').textContent=t;
+$('questionsCount').textContent=q;
+$('attemptsCount').textContent=a;
+
+const [sr,tr,ar]=await Promise.all([
+db.from('subjects')
+.select('title,slug,is_published,sort_order')
+.order('sort_order').limit(100),
+
+db.from('topics')
+.select('title,description,is_published,sort_order')
+.order('sort_order').limit(100),
+
+db.from('quiz_attempts')
+.select('total_questions,correct_answers,points,completed_at')
+.order('completed_at',{ascending:false})
+.limit(10)
+]);
+
+if(sr.error) throw sr.error;
+if(tr.error) throw tr.error;
+if(ar.error) throw ar.error;
+
+$('subjectsTable').innerHTML=makeTable(sr.data,[
+{key:'title',label:'نام درس'},
+{key:'slug',label:'شناسه'},
+{key:'is_published',label:'منتشر شده'},
+{key:'sort_order',label:'ترتیب'}
+]);
+
+$('topicsTable').innerHTML=makeTable(tr.data,[
+{key:'title',label:'موضوع'},
+{key:'description',label:'توضیحات'},
+{key:'is_published',label:'منتشر شده'},
+{key:'sort_order',label:'ترتیب'}
+]);
+
+$('attemptsTable').innerHTML=makeTable(ar.data,[
+{key:'completed_at',label:'زمان'},
+{key:'total_questions',label:'تعداد سؤال'},
+{key:'correct_answers',label:'پاسخ درست'},
+{key:'points',label:'امتیاز'}
+]);
+
+$('dashMsg').textContent='اطلاعات با موفقیت دریافت شد.';
+
+}catch(e){
+showMessage('dashMsg','خطا: '+e.message,true);
+}
+}
+
+$('loginForm').addEventListener('submit',async e=>{
+e.preventDefault();
+$('loginBtn').disabled=true;
+showMessage('loginMsg','در حال ورود...');
+
+try{
+const {data,error}=await db.auth.signInWithPassword({
+email:$('email').value.trim(),
+password:$('password').value
+});
+
+if(error) throw error;
+await checkAdmin(data.user);
+
+}catch(e){
+showMessage('loginMsg','ورود ناموفق: '+e.message,true);
+}finally{
+$('loginBtn').disabled=false;
+}
+});
+
+$('refresh').addEventListener('click',loadData);
+
+$('logout').addEventListener('click',async()=>{
+await db.auth.signOut();
+$('dashboard').classList.add('hidden');
+$('login').classList.remove('hidden');
+$('status').textContent='خارج‌شده';
+});
+
+db.auth.getSession().then(({data})=>{
+if(data.session) checkAdmin(data.session.user);
+});
+</script>
+</body>
+</html>
